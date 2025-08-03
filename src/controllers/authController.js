@@ -55,16 +55,18 @@ const register = async (req, res) => {
     return res.status(400).json({ message: "User with this email already exists" });
   }
 
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
+  //const salt = await bcrypt.genSalt(10);
+  //const hashedPassword = await bcrypt.hash(password, salt);
 
-  
+  //console.log("Original password:", password);
+  //console.log("Hashed password:", hashedPassword);
+
 
   const newUser = new User({
     name,
     email,
     mobile,
-    password: hashedPassword,
+    password,
     role,
     isMobileVerified: true,
     createdAt: new Date()
@@ -95,6 +97,8 @@ const loginUser = async (req, res) => {
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+    //console.log("Entered password:", password);
+    //console.log("Stored hashed password:", user.password);
 
     
     if (!isMatch) {
